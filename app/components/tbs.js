@@ -33,47 +33,64 @@ export default class GeometryShapes extends ExampleBase {
 
     this._onAnimate = this._onAnimate.bind(this);
     this._onAnimateInternal = this._onAnimateInternal.bind(this);
-    this.resizeCanvasWrapper = this.resizeCanvasWrapper.bind(this);
+    this.updateCanvasSize = this.updateCanvasSize.bind(this);
 
   }
 
-  resizeCanvasWrapper() {
-    let canvas = document.getElementById('canvas'),
-        context = canvas.getContext('3d');
+  updateCanvasSize() {
+    var w = window,
+        d = document,
+        documentElement = d.documentElement,
+        body = d.getElementsByTagName('body')[0],
+        width = w.innerWidth || documentElement.clientWidth || body.clientWidth,
+        height = w.innerHeight|| documentElement.clientHeight|| body.clientHeight;
 
-    // resize the canvas to fill browser window dynamically
-    // const container = this.refs.container;
-    window.addEventListener('resize', resizeCanvas, false);
+    this.setState({width: width, height: height});
+        // if you are using ES2015 I'm pretty sure you can do this: this.setState({width, height});
 
-    var resizeCanvas = function() {
-      if (window.innerWidth !== this.state.width || window.innerHeight !== this.state.height) {
-        this.setState({
-          width: window.innerWidth,
-          height: window.innerHeight
-        });
-        // return true;
-      // } else {
-      //   return false;
-      }
-      // canvas.width = window.innerWidth;
-      // canvas.height = window.innerHeight;
-
-    }
-
-    resizeCanvas();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.resizeCanvasWrapper) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // resizeCanvasWrapper() {
+  //   let canvas = document.getElementById('canvas'),
+  //       context = canvas.getContext('3d');
 
-  componentDidUpdate(prevProps, prevState) {
-    this.resizeCanvasWrapper();
-    console.log("after w and h", this.state.width, this.state.height)
+  //   // resize the canvas to fill browser window dynamically
+  //   // const container = this.refs.container;
+  //   window.addEventListener('resize', resizeCanvas, false);
+
+  //   var resizeCanvas = function() {
+  //     if (window.innerWidth !== this.state.width || window.innerHeight !== this.state.height) {
+  //       this.setState({
+  //         width: window.innerWidth,
+  //         height: window.innerHeight
+  //       });
+  //       // return true;
+  //     // } else {
+  //     //   return false;
+  //     }
+  //     // canvas.width = window.innerWidth;
+  //     // canvas.height = window.innerHeight;
+
+  //   }
+
+  //   resizeCanvas();
+  // }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.resizeCanvasWrapper) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   this.resizeCanvasWrapper();
+  //   console.log("after w and h", this.state.width, this.state.height)
+  // }
+
+  componentWillMount() {
+    this.updateCanvasSize();
   }
 
 
@@ -90,6 +107,8 @@ export default class GeometryShapes extends ExampleBase {
     container.addEventListener('mousedown', this._onDocumentMouseDown, false);
     container.addEventListener('touchstart', this._onDocumentTouchStart, false);
     document.addEventListener('touchmove', this._onDocumentTouchMove, false);
+
+    window.addEventListener('resize', this.updateCanvasSize);
   }
 
   componentWillUnmount() {
@@ -101,6 +120,8 @@ export default class GeometryShapes extends ExampleBase {
     document.removeEventListener('mousemove', this._onDocumentMouseMove, false);
     document.removeEventListener('mouseup', this._onDocumentMouseUp, false);
     document.removeEventListener('mouseout', this._onDocumentMouseOut, false);
+
+    window.removeEventListener('resize', this.updateCanvasSize);
 
     // delete this.stats;
   }

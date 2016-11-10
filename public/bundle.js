@@ -137720,51 +137720,68 @@
 	
 	    _this._onAnimate = _this._onAnimate.bind(_this);
 	    _this._onAnimateInternal = _this._onAnimateInternal.bind(_this);
-	    _this.resizeCanvasWrapper = _this.resizeCanvasWrapper.bind(_this);
+	    _this.updateCanvasSize = _this.updateCanvasSize.bind(_this);
 	
 	    return _this;
 	  }
 	
 	  _createClass(GeometryShapes, [{
-	    key: 'resizeCanvasWrapper',
-	    value: function resizeCanvasWrapper() {
-	      var canvas = document.getElementById('canvas'),
-	          context = canvas.getContext('3d');
+	    key: 'updateCanvasSize',
+	    value: function updateCanvasSize() {
+	      var w = window,
+	          d = document,
+	          documentElement = d.documentElement,
+	          body = d.getElementsByTagName('body')[0],
+	          width = w.innerWidth || documentElement.clientWidth || body.clientWidth,
+	          height = w.innerHeight || documentElement.clientHeight || body.clientHeight;
 	
-	      // resize the canvas to fill browser window dynamically
-	      // const container = this.refs.container;
-	      window.addEventListener('resize', resizeCanvas, false);
-	
-	      var resizeCanvas = function resizeCanvas() {
-	        if (window.innerWidth !== this.state.width || window.innerHeight !== this.state.height) {
-	          this.setState({
-	            width: window.innerWidth,
-	            height: window.innerHeight
-	          });
-	          // return true;
-	          // } else {
-	          //   return false;
-	        }
-	        // canvas.width = window.innerWidth;
-	        // canvas.height = window.innerHeight;
-	      };
-	
-	      resizeCanvas();
+	      this.setState({ width: width, height: height });
+	      // if you are using ES2015 I'm pretty sure you can do this: this.setState({width, height});
 	    }
+	
+	    // resizeCanvasWrapper() {
+	    //   let canvas = document.getElementById('canvas'),
+	    //       context = canvas.getContext('3d');
+	
+	    //   // resize the canvas to fill browser window dynamically
+	    //   // const container = this.refs.container;
+	    //   window.addEventListener('resize', resizeCanvas, false);
+	
+	    //   var resizeCanvas = function() {
+	    //     if (window.innerWidth !== this.state.width || window.innerHeight !== this.state.height) {
+	    //       this.setState({
+	    //         width: window.innerWidth,
+	    //         height: window.innerHeight
+	    //       });
+	    //       // return true;
+	    //     // } else {
+	    //     //   return false;
+	    //     }
+	    //     // canvas.width = window.innerWidth;
+	    //     // canvas.height = window.innerHeight;
+	
+	    //   }
+	
+	    //   resizeCanvas();
+	    // }
+	
+	    // shouldComponentUpdate(nextProps, nextState) {
+	    //   if (this.resizeCanvasWrapper) {
+	    //     return true;
+	    //   } else {
+	    //     return false;
+	    //   }
+	    // }
+	
+	    // componentDidUpdate(prevProps, prevState) {
+	    //   this.resizeCanvasWrapper();
+	    //   console.log("after w and h", this.state.width, this.state.height)
+	    // }
+	
 	  }, {
-	    key: 'shouldComponentUpdate',
-	    value: function shouldComponentUpdate(nextProps, nextState) {
-	      if (this.resizeCanvasWrapper) {
-	        return true;
-	      } else {
-	        return false;
-	      }
-	    }
-	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate(prevProps, prevState) {
-	      this.resizeCanvasWrapper();
-	      console.log("after w and h", this.state.width, this.state.height);
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.updateCanvasSize();
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -137781,6 +137798,8 @@
 	      container.addEventListener('mousedown', this._onDocumentMouseDown, false);
 	      container.addEventListener('touchstart', this._onDocumentTouchStart, false);
 	      document.addEventListener('touchmove', this._onDocumentTouchMove, false);
+	
+	      window.addEventListener('resize', this.updateCanvasSize);
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -137793,6 +137812,8 @@
 	      document.removeEventListener('mousemove', this._onDocumentMouseMove, false);
 	      document.removeEventListener('mouseup', this._onDocumentMouseUp, false);
 	      document.removeEventListener('mouseout', this._onDocumentMouseOut, false);
+	
+	      window.removeEventListener('resize', this.updateCanvasSize);
 	
 	      // delete this.stats;
 	    }
