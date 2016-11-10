@@ -28071,13 +28071,7 @@
 	  function App(props) {
 	    _classCallCheck(this, App);
 	
-	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-	
-	    _this.state = {
-	      width: 600,
-	      height: 600
-	    };
-	    return _this;
+	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	  }
 	
 	  _createClass(App, [{
@@ -28086,38 +28080,43 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Testing if the different components work'
-	        ),
+	        { className: 'row' },
+	        _react2.default.createElement('div', { className: 'col-md-2' }),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'menu' },
+	          { className: 'col-md-8 col-sm-12' },
 	          _react2.default.createElement(
-	            'button',
-	            { id: 'table' },
-	            'TABLE'
+	            'h1',
+	            null,
+	            'Testing if the different components work'
 	          ),
 	          _react2.default.createElement(
-	            'button',
-	            { id: 'sphere' },
-	            'SPHERE'
+	            'div',
+	            { id: 'menu' },
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'table' },
+	              'TABLE'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'sphere' },
+	              'SPHERE'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'helix' },
+	              'HELIX'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'grid' },
+	              'GRID'
+	            )
 	          ),
-	          _react2.default.createElement(
-	            'button',
-	            { id: 'helix' },
-	            'HELIX'
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            { id: 'grid' },
-	            'GRID'
-	          )
+	          this.props.children
 	        ),
-	        this.props.children,
-	        _react2.default.createElement(_tbs2.default, { width: this.state.width, height: this.state.height })
+	        _react2.default.createElement('div', { className: 'col-md-2' })
 	      );
 	    }
 	  }]);
@@ -137705,6 +137704,8 @@
 	    _this.targetRotation = 0;
 	
 	    _this.state = _extends({}, _this.state, {
+	      width: window.innerWidth,
+	      height: window.innerHeight,
 	      groupRotation: new _three2.default.Euler(0, 0, 0)
 	    });
 	
@@ -137721,6 +137722,28 @@
 	  }
 	
 	  _createClass(GeometryShapes, [{
+	    key: 'resizeCanvas',
+	    value: function (_resizeCanvas) {
+	      function resizeCanvas() {
+	        return _resizeCanvas.apply(this, arguments);
+	      }
+	
+	      resizeCanvas.toString = function () {
+	        return _resizeCanvas.toString();
+	      };
+	
+	      return resizeCanvas;
+	    }(function () {
+	      var canvas = document.getElementById('canvas'),
+	          context = canvas.getContext('2d');
+	
+	      // resize the canvas to fill browser window dynamically
+	      window.addEventListener('resize', resizeCanvas, false);
+	
+	      canvas.width = window.innerWidth;
+	      canvas.height = window.innerHeight;
+	    })
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      // this.stats = new Stats();
@@ -137759,7 +137782,7 @@
 	      document.addEventListener('mouseup', this._onDocumentMouseUp, false);
 	      document.addEventListener('mouseout', this._onDocumentMouseOut, false);
 	
-	      var width = this.props.width;
+	      var width = this.state.width;
 	
 	
 	      var windowHalfX = width / 2;
@@ -137770,7 +137793,7 @@
 	  }, {
 	    key: '_onDocumentMouseMove',
 	    value: function _onDocumentMouseMove(event) {
-	      var width = this.props.width;
+	      var width = this.state.width;
 	
 	
 	      var windowHalfX = width / 2;
@@ -137798,7 +137821,7 @@
 	      if (event.touches.length === 1) {
 	        event.preventDefault();
 	
-	        var width = this.props.width;
+	        var width = this.state.width;
 	
 	
 	        var windowHalfX = width / 2;
@@ -137813,7 +137836,7 @@
 	      if (event.touches.length === 1) {
 	        event.preventDefault();
 	
-	        var width = this.props.width;
+	        var width = this.state.width;
 	
 	
 	        var windowHalfX = width / 2;
@@ -137846,14 +137869,14 @@
 	      var cameraPosition = new _three2.default.Vector3(0, 150, 500);
 	      var groupPosition = new _three2.default.Vector3(0, 50, 0);
 	
-	      var _props = this.props,
-	          width = _props.width,
-	          height = _props.height;
+	      var _state = this.state,
+	          width = _state.width,
+	          height = _state.height,
+	          groupRotation = _state.groupRotation;
 	
-	      console.log('inside TBS, what is w and h', width, height);
 	
-	      var groupRotation = this.state.groupRotation;
-	
+	      console.log("doc width", document.clientWidth);
+	      console.log("doc height", document.clientHeight);
 	
 	      return _react2.default.createElement(
 	        'div',

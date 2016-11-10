@@ -20,6 +20,8 @@ export default class GeometryShapes extends ExampleBase {
 
     this.state = {
       ...this.state,
+      width: window.innerWidth,
+      height: window.innerHeight,
       groupRotation: new THREE.Euler(0, 0, 0),
     };
 
@@ -34,7 +36,16 @@ export default class GeometryShapes extends ExampleBase {
 
   }
 
+  resizeCanvas() {
+    let canvas = document.getElementById('canvas'),
+        context = canvas.getContext('2d');
 
+    // resize the canvas to fill browser window dynamically
+    window.addEventListener('resize', resizeCanvas, false);
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
 
   componentDidMount() {
     // this.stats = new Stats();
@@ -73,7 +84,7 @@ export default class GeometryShapes extends ExampleBase {
 
     const {
       width,
-    } = this.props;
+    } = this.state;
 
     const windowHalfX = width / 2;
 
@@ -84,7 +95,7 @@ export default class GeometryShapes extends ExampleBase {
   _onDocumentMouseMove(event) {
     const {
       width,
-    } = this.props;
+    } = this.state;
 
     const windowHalfX = width / 2;
 
@@ -111,7 +122,7 @@ export default class GeometryShapes extends ExampleBase {
 
       const {
         width,
-      } = this.props;
+      } = this.state;
 
       const windowHalfX = width / 2;
 
@@ -126,7 +137,7 @@ export default class GeometryShapes extends ExampleBase {
 
       const {
         width,
-      } = this.props;
+      } = this.state;
 
       const windowHalfX = width / 2;
 
@@ -160,12 +171,11 @@ export default class GeometryShapes extends ExampleBase {
     const {
       width,
       height,
-    } = this.props;
-    console.log('inside TBS, what is w and h', width, height)
-
-    const {
-      groupRotation,
+      groupRotation
     } = this.state;
+
+    console.log("doc width", document.clientWidth)
+    console.log("doc height", document.clientHeight)
 
     return (
       <div ref="container">

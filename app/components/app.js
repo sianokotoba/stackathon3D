@@ -11,26 +11,24 @@ import TBS from './tbs';
 export default class App extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      width: 600,
-      height: 600
-    }
   };
 
   render() {
 
     return (
-      <div>
-        <h1>Testing if the different components work</h1>
-        <div id="menu">
-          <button id="table">TABLE</button>
-          <button id="sphere">SPHERE</button>
-          <button id="helix">HELIX</button>
-          <button id="grid">GRID</button>
-        </div>
-        { this.props.children }
-        <TBS width={this.state.width} height={this.state.height}/>
+      <div className="row">
+        <div className="col-md-2"></div>
+          <div className="col-md-8 col-sm-12">
+            <h1>Testing if the different components work</h1>
+            <div id="menu">
+              <button id="table">TABLE</button>
+              <button id="sphere">SPHERE</button>
+              <button id="helix">HELIX</button>
+              <button id="grid">GRID</button>
+            </div>
+            { this.props.children }
+          </div>
+        <div className="col-md-2"></div>
       </div>
   );
   }
