@@ -33,19 +33,49 @@ export default class GeometryShapes extends ExampleBase {
 
     this._onAnimate = this._onAnimate.bind(this);
     this._onAnimateInternal = this._onAnimateInternal.bind(this);
+    this.resizeCanvasWrapper = this.resizeCanvasWrapper.bind(this);
 
   }
 
-  resizeCanvas() {
+  resizeCanvasWrapper() {
     let canvas = document.getElementById('canvas'),
-        context = canvas.getContext('2d');
+        context = canvas.getContext('3d');
 
     // resize the canvas to fill browser window dynamically
+    // const container = this.refs.container;
     window.addEventListener('resize', resizeCanvas, false);
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    var resizeCanvas = function() {
+      if (window.innerWidth !== this.state.width || window.innerHeight !== this.state.height) {
+        this.setState({
+          width: window.innerWidth,
+          height: window.innerHeight
+        });
+        // return true;
+      // } else {
+      //   return false;
+      }
+      // canvas.width = window.innerWidth;
+      // canvas.height = window.innerHeight;
+
+    }
+
+    resizeCanvas();
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.resizeCanvasWrapper) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.resizeCanvasWrapper();
+    console.log("after w and h", this.state.width, this.state.height)
+  }
+
 
   componentDidMount() {
     // this.stats = new Stats();
@@ -168,14 +198,14 @@ export default class GeometryShapes extends ExampleBase {
     let cameraPosition = new THREE.Vector3(0, 150, 500);
     let groupPosition = new THREE.Vector3(0, 50, 0);
 
+
+
     const {
       width,
       height,
       groupRotation
     } = this.state;
-
-    console.log("doc width", document.clientWidth)
-    console.log("doc height", document.clientHeight)
+    console.log("B4 w and h", width, height)
 
     return (
       <div ref="container">

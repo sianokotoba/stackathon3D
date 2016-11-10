@@ -36,6 +36,7 @@ export default class Tester extends Component {
     const height = window.innerHeight; // canvas height
 
     return (
+            // DO A FUCKING TERNARY ON THE GODDAMN MOTHER EFFING REACT3!!!!!!!!
       <React3
       mainCamera="camera" // this points to the perspectiveCamera which has the name set to "camera" below
       width={width}

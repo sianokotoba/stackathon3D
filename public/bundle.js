@@ -137596,40 +137596,43 @@
 	      var width = window.innerWidth; // canvas width
 	      var height = window.innerHeight; // canvas height
 	
-	      return _react2.default.createElement(
-	        _reactThreeRenderer2.default,
-	        {
-	          mainCamera: 'camera' // this points to the perspectiveCamera which has the name set to "camera" below
-	          , width: width,
-	          height: height,
-	
-	          onAnimate: this._onAnimate
-	        },
+	      return (
+	        // DO A FUCKING TERNARY ON THE GODDAMN MOTHER EFFING REACT3!!!!!!!!
 	        _react2.default.createElement(
-	          'scene',
-	          null,
-	          _react2.default.createElement('perspectiveCamera', {
-	            name: 'camera',
-	            fov: 75,
-	            aspect: width / height,
-	            near: 0.1,
-	            far: 1000,
+	          _reactThreeRenderer2.default,
+	          {
+	            mainCamera: 'camera' // this points to the perspectiveCamera which has the name set to "camera" below
+	            , width: width,
+	            height: height,
 	
-	            position: this.cameraPosition
-	          }),
+	            onAnimate: this._onAnimate
+	          },
 	          _react2.default.createElement(
-	            'mesh',
-	            {
-	              rotation: this.state.cubeRotation
-	            },
-	            _react2.default.createElement('boxGeometry', {
-	              width: 1,
-	              height: 1,
-	              depth: 1
+	            'scene',
+	            null,
+	            _react2.default.createElement('perspectiveCamera', {
+	              name: 'camera',
+	              fov: 75,
+	              aspect: width / height,
+	              near: 0.1,
+	              far: 1000,
+	
+	              position: this.cameraPosition
 	            }),
-	            _react2.default.createElement('meshBasicMaterial', {
-	              color: 0x00ff00
-	            })
+	            _react2.default.createElement(
+	              'mesh',
+	              {
+	                rotation: this.state.cubeRotation
+	              },
+	              _react2.default.createElement('boxGeometry', {
+	                width: 1,
+	                height: 1,
+	                depth: 1
+	              }),
+	              _react2.default.createElement('meshBasicMaterial', {
+	                color: 0x00ff00
+	              })
+	            )
 	          )
 	        )
 	      );
@@ -137717,32 +137720,52 @@
 	
 	    _this._onAnimate = _this._onAnimate.bind(_this);
 	    _this._onAnimateInternal = _this._onAnimateInternal.bind(_this);
+	    _this.resizeCanvasWrapper = _this.resizeCanvasWrapper.bind(_this);
 	
 	    return _this;
 	  }
 	
 	  _createClass(GeometryShapes, [{
-	    key: 'resizeCanvas',
-	    value: function (_resizeCanvas) {
-	      function resizeCanvas() {
-	        return _resizeCanvas.apply(this, arguments);
-	      }
-	
-	      resizeCanvas.toString = function () {
-	        return _resizeCanvas.toString();
-	      };
-	
-	      return resizeCanvas;
-	    }(function () {
+	    key: 'resizeCanvasWrapper',
+	    value: function resizeCanvasWrapper() {
 	      var canvas = document.getElementById('canvas'),
-	          context = canvas.getContext('2d');
+	          context = canvas.getContext('3d');
 	
 	      // resize the canvas to fill browser window dynamically
+	      // const container = this.refs.container;
 	      window.addEventListener('resize', resizeCanvas, false);
 	
-	      canvas.width = window.innerWidth;
-	      canvas.height = window.innerHeight;
-	    })
+	      var resizeCanvas = function resizeCanvas() {
+	        if (window.innerWidth !== this.state.width || window.innerHeight !== this.state.height) {
+	          this.setState({
+	            width: window.innerWidth,
+	            height: window.innerHeight
+	          });
+	          // return true;
+	          // } else {
+	          //   return false;
+	        }
+	        // canvas.width = window.innerWidth;
+	        // canvas.height = window.innerHeight;
+	      };
+	
+	      resizeCanvas();
+	    }
+	  }, {
+	    key: 'shouldComponentUpdate',
+	    value: function shouldComponentUpdate(nextProps, nextState) {
+	      if (this.resizeCanvasWrapper) {
+	        return true;
+	      } else {
+	        return false;
+	      }
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate(prevProps, prevState) {
+	      this.resizeCanvasWrapper();
+	      console.log("after w and h", this.state.width, this.state.height);
+	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
@@ -137874,9 +137897,7 @@
 	          height = _state.height,
 	          groupRotation = _state.groupRotation;
 	
-	
-	      console.log("doc width", document.clientWidth);
-	      console.log("doc height", document.clientHeight);
+	      console.log("B4 w and h", width, height);
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -138819,12 +138840,9 @@
 	          y = _props.y,
 	          z = _props.z;
 	
-	      console.log("SHAPE s!", s);
-	      console.log("Shape props", this.props);
 	
 	      var rotation = new _three2.default.Euler(rx, ry, rz);
 	      var scale = new _three2.default.Vector3(s, s, s);
-	      console.log("new Euler instance", rotation);
 	
 	      return _react2.default.createElement(
 	        'group',

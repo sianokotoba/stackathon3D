@@ -40,12 +40,9 @@ export default class Shape extends Component {
       y,
       z,
       } = this.props;
-      console.log("SHAPE s!", s);
-      console.log("Shape props", this.props);
 
     const rotation = new THREE.Euler(rx, ry, rz);
     const scale = new THREE.Vector3(s, s, s);
-    console.log("new Euler instance", rotation)
 
     return (
       <group>
