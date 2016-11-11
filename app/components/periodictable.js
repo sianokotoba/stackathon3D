@@ -1,4 +1,4 @@
-export default const table = [
+export const table = [
       "H", "Hydrogen", "1.00794", 1, 1,
       "He", "Helium", "4.002602", 18, 1,
       "Li", "Lithium", "6.941", 1, 2,

@@ -5,8 +5,10 @@ import { Router, Route, IndexRedirect, browserHistory } from 'react-router';
 import { connect, Provider } from 'react-redux';
 
 import App from './components/app';
-import Tester from './components/tester';
-import TBS from './components/tbs';
+import Home from './components/home';
+
+import Tester from './testpages/tester';
+import TBS from './testpages/tbs';
 
 // import store from './store'
 // import Jokes from './components/Jokes'
@@ -40,6 +42,7 @@ import TBS from './components/tbs';
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
+      <Route path="/home" component={Home} />
       <Route path="/test_cube" component={Tester} />
       <Route path="/test_spinning" component={TBS} />
     </Route>

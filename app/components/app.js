@@ -5,8 +5,8 @@ import THREE from 'three';
 // import Navbar from './navbar';
 // import Footer from './footer';
 // import Home from './home';
-import Tester from './tester';
-import TBS from './tbs';
+import Tester from '../testpages/tester';
+import TBS from '../testpages/tbs';
 
 export default class App extends Component {
   constructor(props) {
